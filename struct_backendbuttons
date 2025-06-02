@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecosistema Backend</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            font-weight: 300;
+        }
+        
+        .ecosystem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .category-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border-left: 5px solid;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+        
+        .languages { border-left-color: #3498db; }
+        .frameworks { border-left-color: #e74c3c; }
+        .databases { border-left-color: #2ecc71; }
+        .apis { border-left-color: #f39c12; }
+        .cloud { border-left-color: #9b59b6; }
+        .tools { border-left-color: #1abc9c; }
+        .practices { border-left-color: #34495e; }
+        .security { border-left-color: #e67e22; }
+        
+        .category-title {
+            font-size: 1.4em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .category-icon {
+            font-size: 1.2em;
+        }
+        
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+        }
+        
+        .tech-item {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 0.9em;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        
+        .tech-item:hover {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            transform: scale(1.05);
+            border-color: rgba(255,255,255,0.3);
+        }
+        
+        .popular {
+            background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
+            font-weight: 600;
+        }
+        
+        .popular:hover {
+            background: linear-gradient(135deg, #fdcb6e, #e17055);
+        }
+        
+        .tooltip {
+            position: absolute;
+            background: rgba(0,0,0,0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.8em;
+            pointer-events: none;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        
+        .legend {
+            text-align: center;
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255,255,255,0.7);
+            border-radius: 10px;
+        }
+        
+        .legend-item {
+            display: inline-block;
+            margin: 0 15px;
+            font-size: 0.9em;
+        }
+        
+        .legend-color {
+            display: inline-block;
+            width: 20px;
+            height: 12px;
+            border-radius: 6px;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+        
+        @media (max-width: 768px) {
+            .ecosystem-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tech-grid {
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Ecosistema Completo de Desarrollo Backend</h1>
+        
+        <div class="ecosystem-grid">
+            <!-- Lenguajes de Programación -->
+            <div class="category-card languages">
+                <div class="category-title">
+                    <span class="category-icon">💻</span>
+                    Lenguajes de Programación
+                </div>
+                <div class="tech-grid">
+                    <div class="tech-item popular" data-tooltip="Muy popular para APIs y desarrollo full-stack">JavaScript</div>
+                    <div class="tech-item popular" data-tooltip="Excelente para APIs, ML y desarrollo rápido">Python</div>
+                    <div class="tech-item popular" data-tooltip="JavaScript con tipos estáticos">TypeScript</div>
+                    <div class="tech-item" data-tooltip="Estándar empresarial, robusto y escalable">Java</div>
+                    <div class="tech-item" data-tooltip="Rápido, simple y eficiente para microservicios">Go</div>
+                    <div class="tech-item" data-tooltip="Ecosistema Microsoft, multiplataforma">C#</div>
+                    <div class="tech-item" data-tooltip="Rendimiento extremo y control de memoria">Rust</div>
+                    <div class="tech-item" data-tooltip="Rápido para desarrollo web">PHP</div>
+                </div>
+            </div>
+
+            <!-- Frameworks y Librerías -->
+            <div class="category-card frameworks">
+                <div class="category-title">
+                    <span class="category-icon">🏗️</span>
+                    Frameworks & Librerías
+                </div>
+                <div class="tech-grid">
+                    <div class="tech-item popular" data-tooltip="Framework minimalista para Node.js">Express.js</div>
+                    <div class="tech-item popular" data-tooltip="Más rápido que Express">Fastify</div>
+                    <div class="tech-item popular" data-tooltip="Framework completo para Python">Django</div>
+                    <div class="tech-item popular" data-tooltip="APIs modernas y rápidas en Python">FastAPI</div>
+                    <div class="tech-item" data-tooltip="Micro-framework flexible para Python">Flask</div>
+                    <div class="tech-item" data-tooltip="Framework empresarial de Java">Spring Boot</div>
+                    <div class="tech-item" data-tooltip="Framework web minimalista para Go">Gin</div>
+                    <div class="tech-item" data-tooltip="Framework completo para .NET">ASP.NET Core</div>
+                    <div class="tech-item" data-tooltip="Framework moderno para Node.js">NestJS</div>
+                    <div class="tech-item" data-tooltip="Framework web para Ruby">Ruby on Rails</div>
+                </div>
+            </div>
+
+            <!-- Bases de Datos -->
+            <div class="category-card databases">
+                <div class="category-title">
+                    <span class="category-icon">🗄️</span>
+                    Bases de Datos
+                </div>
+                <div class="tech-grid">
+                    <div class="tech-item popular" data-tooltip="Base de datos relacional más avanzada">PostgreSQL</div>
+                    <div class="tech-item popular" data-tooltip="Base de datos NoSQL líder">MongoDB</div>
+                    <div class="tech-item popular" data-tooltip="Cache en memoria súper rápido">Redis</div>
+                    <div class="tech-item" data-tooltip="Base de datos relacional tradicional">MySQL</div>
+                    <div class="tech-item" data-tooltip="Base de datos distribuida de Apache">Cassandra</div>
+                    <div class="tech-item" data-tooltip="Motor de búsqueda y análisis">Elasticsearch</div>
+                    <div class="tech-item" data-tooltip="Base de datos en tiempo real">Firebase</div>
+                    <div class="tech-item" data-tooltip="Base de datos de grafos">Neo4j</div>
+                </div>
+            </div>
+
+            <!-- APIs y Comunicación -->
+            <div class="category-card apis">
+                <div class="category-title">
+                    <span class="category-icon">🔗</span>
+                    APIs & Comunicación
+                </div>
+                <div class="tech-grid">
+                    <div class="tech-item popular" data-tooltip="Arquitectura de APIs más común">REST</div>
+                    <div class="tech-item popular" data-tooltip="Query language flexible para APIs">GraphQL</div>
+                    <div class="tech-item" data-tooltip="Comunicación bidireccional en tiempo real">WebSockets</div>
+                    <div class="tech-item" data-tooltip="Protocolo de comunicación eficiente">gRPC</div>
+                    <div class="tech-item" data-tooltip="Especificación para APIs REST">OpenAPI/Swagger</div>
+                    <div class="tech-item" data-tooltip="Formato ligero de intercambio de datos">JSON</div>
+                    <div class="tech-item" data-tooltip="Sistema de mensajería asíncrona">Message Queues</div>
+                    <div class="tech-item" data-tooltip="Comunicación en tiempo real">Server-Sent Events</div>
+                </div>
+            </div>
+
+            <!-- Cloud y DevOps -->
+            <div class="category-card cloud">
+                <div class="category-title">
+                    <span class="category-icon">☁️</span>
+                    Cloud & DevOps
+                </div>
+                <div class="tech-grid">
+                    <div class="tech-item popular" data-tooltip="Líder en servicios cloud">AWS</div>
+                    <div class="tech-item popular" data-tooltip="Plataforma cloud de Microsoft">Azure</div>
+                    <div class="tech-item popular" data-tooltip="Plataforma cloud de Google">Google Cloud</div>
+                    <div class="tech-item popular" data-tooltip="Contenedorización estándar">Docker</div>
+                    <div class="tech-item" data-tooltip="Orquestación de contenedores">Kubernetes</div>
+                    <div class="tech-item" data-tooltip="Plataforma de desarrollo cloud">Heroku</div>
+                    <div class="tech-item" data-tooltip="Plataforma edge computing">Vercel</div>
+                    <div class="tech-item" data-tooltip="Plataforma JAMstack">Netlify</div>
+                </div>
+            </div>
+
+            <!-- Herramientas y Utilidades -->
+            <div class="category-card tools">
+                <div class="category-title">
+                    <span class="category-icon">🔧</span>
+                    Herramientas & Utilidades
+                </div>
+                <div class="tech-grid">
+                    <div class="tech-item popular" data-tooltip="Control de versiones esencial">Git</div>
+                    <div class="tech-item popular" data-tooltip="Plataforma de desarrollo colaborativo">GitHub</div>
+                    <div class="tech-item popular" data-tooltip="Servidor web y proxy reverso">Nginx</div>
+                    <div class="tech-item" data-tooltip="Servidor web de Apache">Apache</div>
+                    <div class="tech-item" data-tooltip="Herramienta de testing de APIs">Postman</div>
+                    <div class="tech-item" data-tooltip="Integración y despliegue continuo">CI/CD</div>
+                    <div class="tech-item" data-tooltip="Monitoreo de aplicaciones">Monitoring</div>
+                    <div class="tech-item" data-tooltip="Gestión de logs">Logging</div>
+                </div>
+            </div>
+
+            <!-- Buenas Prácticas -->
+            <div class="category-card practices">
+                <div class="category-title">
+                    <span class="category-icon">📋</span>
+                    Prácticas & Arquitectura
+                </div>
+                <div class="tech-grid">
+                    <div class="tech-item popular" data-tooltip="Arquitectura de servicios pequeños">Microservicios</div>
+                    <div class="tech-item popular" data-tooltip="Metodología de desarrollo ágil">TDD</div>
+                    <div class="tech-item" data-tooltip="Arquitectura tradicional">Monolito</div>
+                    <div class="tech-item" data-tooltip="Arquitectura sin servidor">Serverless</div>
+                    <div class="tech-item" data-tooltip="Patrón de diseño de software">MVC</div>
+                    <div class="tech-item" data-tooltip="Separación de responsabilidades">Clean Architecture</div>
+                    <div class="tech-item" data-tooltip="Desarrollo dirigido por dominio">DDD</div>
+                    <div class="tech-item" data-tooltip="Principios de diseño SOLID">SOLID</div>
+                </div>
+            </div>
+
+            <!-- Seguridad -->
+            <div class="category-card security">
+                <div class="category-title">
+                    <span class="category-icon">🔐</span>
+                    Seguridad & Autenticación
+                </div>
+                <div class="tech-grid">
+                    <div class="tech-item popular" data-tooltip="Tokens de autenticación">JWT</div>
+                    <div class="tech-item popular" data-tooltip="Protocolo de autorización">OAuth 2.0</div>
+                    <div class="tech-item" data-tooltip="Protocolo de comunicación segura">HTTPS/TLS</div>
+                    <div class="tech-item" data-tooltip="Control de acceso basado en roles">RBAC</div>
+                    <div class="tech-item" data-tooltip="Cifrado de contraseñas">bcrypt</div>
+                    <div class="tech-item" data-tooltip="Configuración de CORS">CORS</div>
+                    <div class="tech-item" data-tooltip="Límite de velocidad de requests">Rate Limiting</div>
+                    <div class="tech-item" data-tooltip="Validación de entrada de datos">Input Validation</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="legend">
+            <div class="legend-item">
+                <span class="legend-color" style="background: linear-gradient(135deg, #ffeaa7, #fdcb6e);"></span>
+                <strong>Muy Popular/Recomendado</strong>
+            </div>
+            <div class="legend-item">
+                <span class="legend-color" style="background: linear-gradient(135deg, #f8f9fa, #e9ecef);"></span>
+                <strong>Tecnología Estándar</strong>
+            </div>
+        </div>
+    </div>
+
+    <div class="tooltip" id="tooltip"></div>
+
+    <script>
+        // Tooltip functionality
+        const tooltip = document.getElementById('tooltip');
+        const techItems = document.querySelectorAll('.tech-item');
+
+        techItems.forEach(item => {
+            item.addEventListener('mouseenter', (e) => {
+                const tooltipText = e.target.getAttribute('data-tooltip');
+                if (tooltipText) {
+                    tooltip.textContent = tooltipText;
+                    tooltip.style.opacity = '1';
+                }
+            });
+
+            item.addEventListener('mousemove', (e) => {
+                tooltip.style.left = e.pageX + 10 + 'px';
+                tooltip.style.top = e.pageY - 30 + 'px';
+            });
+
+            item.addEventListener('mouseleave', () => {
+                tooltip.style.opacity = '0';
+            });
+        });
+
+        // Add some interactive animations
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.category-card');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+                card.style.animation = 'fadeInUp 0.6s ease forwards';
+            });
+        });
+
+        // CSS animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
